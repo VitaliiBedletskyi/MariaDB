@@ -1,13 +1,14 @@
 name: Create Release
 
 on:
-  merge:
+  push:
     branches:
       - release
 
 jobs:
   build:
     name: Build production artifacts
+    if: github.event.pull_request.merged == 'true'
     runs-on: ubuntu-latest
     strategy:
       matrix:
