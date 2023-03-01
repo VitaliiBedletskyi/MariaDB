@@ -30,16 +30,18 @@ jobs:
 
       - name: Get current package version
         uses: martinbeentjes/npm-get-version-action@v1.2.3
-        env:
-          PACKAGE_NAME: ${{ github.event.repository.name }}.${{ steps.package-version.outputs.current-version}}
+
+      - name: Generate package name
+        id: package-name
+        run: echo "PACKAGE_NAME=${{ github.event.repository.name }}.${{ steps.package-version.outputs.current-version}}" >> $GITHUB_OUTPUT
 
       - name: Rename build folder
-        run: mv release $PACKAGE_NAME
+        run: mv release ${{ steps.package-name.outputs.PACKAGE_NAME }}
 
       - name: Zip build
         uses: montudor/action-zip@v1
         with:
-          args: zip -q -r $PACKAGE_NAME.zip $PACKAGE_NAME
+          args: zip -q -r ${{ steps.package-name.outputs.PACKAGE_NAME }}.zip ${{ steps.package-name.outputs.PACKAGE_NAME }}
 
       - name: Create release
         run: npx semantic-release
