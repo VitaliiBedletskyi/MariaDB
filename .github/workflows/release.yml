@@ -29,11 +29,11 @@ jobs:
         run: npm run package
 
       - name: Get current package version
-        uses: martinbeentjes/npm-get-version-action@v1.2.3
+        uses: Saionaro/extract-package-version@v1.2.1
 
       - name: Generate package name
         id: package-name
-        run: echo "PACKAGE_NAME=${{ github.event.repository.name }}.${{ steps.package-version.outputs.current-version}}" >> $GITHUB_OUTPUT
+        run: echo "PACKAGE_NAME=${{ github.event.repository.name }}.${{ steps.extract_version.outputs.version }}" >> $GITHUB_OUTPUT
 
       - name: Rename build folder
         run: mv release ${{ steps.package-name.outputs.PACKAGE_NAME }}
