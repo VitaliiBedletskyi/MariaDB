@@ -1,5 +1,5 @@
 {
-	"branches": ["release"]
+	"branches": ["release"],
 	"npmPublish": false,
 	"plugins": [
 		["@semantic-release/github", {
