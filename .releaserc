@@ -4,7 +4,7 @@
 	"plugins": [
 		["@semantic-release/github", {
 			"assets": [
-				{"path": "./MariaDB-*.zip", "label": "MariDB release artifacts"}
+				{"path": "./MariaDB-*.zip"}
 			]
 		}],
 	]
