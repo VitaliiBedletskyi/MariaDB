@@ -1,7 +1,7 @@
 const path = require('path');
 
 const BUILD_FOLDER_PATH = path.resolve(__dirname, 'build');
-const ROOT_PACKAGE_JSON_PATH = path.resolve(BUILD_FOLDER_PATH, 'package.json');
+const RELEASE_FOLDER_PATH = path.resolve(__dirname, 'release');
 
 const EXCLUDED_EXTENSIONS = ['.js', '.g4', '.interp', '.tokens'];
 const EXCLUDED_FILES = [
@@ -23,7 +23,7 @@ const EXCLUDED_FILES = [
 
 module.exports = {
 	BUILD_FOLDER_PATH,
-	ROOT_PACKAGE_JSON_PATH,
+	RELEASE_FOLDER_PATH,
 	EXCLUDED_EXTENSIONS,
 	EXCLUDED_FILES,
 };
