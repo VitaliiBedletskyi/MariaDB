@@ -1,0 +1,36 @@
+name: Build artifacts
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build development artifacts
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 16.x ]
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install node modules
+        run: npm install
+
+      - name: Build plugin
+        run: npm run package
+
+      - name: Upload development artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ github.event.repository.name }}
+          path: |
+            release
