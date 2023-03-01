@@ -25,8 +25,8 @@
             "enableJsonType": true,
             "useJsonTypesWithComplexTypes": true,
             "reverseSchemaIntoOneColumn": true,
-			"disableDenormalization": true,
-			"enableComplexTypesNormalization": true,
+            "disableDenormalization": true,
+            "enableComplexTypesNormalization": true,
             "views": {
                 "enabled": true,
                 "viewLevel": "model",
@@ -42,5 +42,30 @@
     },
     "description": "Hackolade plugin for MariaDB",
     "icon_url": "logo.jpg",
-    "disabled": false
+    "disabled": false,
+    "scripts": {
+        "lint": "eslint .",
+        "build": "node esbuild.bundle.js",
+        "package": "node esbuild.package.js"
+    },
+    "workspaces": [
+        "reverse_engineering"
+    ],
+    "devDependencies": {
+        "esbuild": "^0.17.10",
+        "esbuild-native-node-modules-plugin": "^1.0.3",
+        "eslint": "^8.35.0",
+        "eslint-config-prettier": "^8.6.0",
+        "eslint-plugin-prettier": "^4.2.1",
+        "fs-extra": "^11.1.0",
+        "lint-staged": "^13.1.2",
+        "prettier": "^2.8.4",
+        "simple-git-hooks": "^2.8.1"
+    },
+    "lint-staged": {
+        "*.{js,json}": "prettier --write && eslint ."
+    },
+	"simple-git-hooks": {
+		"pre-commit": "npx lint-staged"
+	}
 }
