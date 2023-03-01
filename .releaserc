@@ -1,0 +1,10 @@
+{
+	"npmPublish": false,
+	"plugins": [
+		["@semantic-release/github", {
+			"assets": [
+				{"path": "dist/asset.min.css", "label": "CSS distribution"}
+			]
+		}],
+	]
+}

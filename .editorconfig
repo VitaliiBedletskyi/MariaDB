@@ -10,7 +10,7 @@ insert_final_newline = true
 [*.{json,js,ts}]
 indent_size = 4
 
-[.{eslintrc, prettierrc}]
+[.{eslintrc, prettierrc, .releaserc}]
 indent_size = 4
 
 [*.md]

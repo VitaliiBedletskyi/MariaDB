@@ -1,8 +1,9 @@
 name: Create Release
 
 on:
-  release:
-    types: [created]
+  merge:
+    branches:
+      - release
 
 jobs:
   build:
@@ -27,26 +28,34 @@ jobs:
       - name: Build plugin
         run: npm run package
 
+      - name: Get current package version
+        uses: martinbeentjes/npm-get-version-action@v1.2.3
+        env:
+          PACKAGE_NAME: ${{ github.event.repository.name }}.${{ steps.package-version.outputs.current-version}}
+
       - name: Rename build folder
-        run: mv release ${{ github.event.repository.name }}
+        run: mv release $PACKAGE_NAME
 
       - name: Zip build
         uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r ${{ github.event.repository.name }}.zip ${{ github.event.repository.name }}
+          args: zip -q -r $PACKAGE_NAME.zip $PACKAGE_NAME
 
-      - name: Get release
-        id: get_release
-        uses: bruceadams/get-release@v1.3.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create release
+        run: npx semantic-release
 
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1.0.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.github_token }}
-        with:
-          upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: ./${{ github.event.repository.name }}.zip
-          asset_name: ${{ github.event.repository.name }}.zip
-          asset_content_type: application/zip
+#      - name: Get release
+#        id: get_release
+#        uses: bruceadams/get-release@v1.3.2
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#
+#      - name: Upload Release Asset
+#        uses: actions/upload-release-asset@v1.0.2
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.github_token }}
+#        with:
+#          upload_url: ${{ steps.get_release.outputs.upload_url }}
+#          asset_path: ./${{ github.event.repository.name }}.zip
+#          asset_name: ${{ github.event.repository.name }}.zip
+#          asset_content_type: application/zip
