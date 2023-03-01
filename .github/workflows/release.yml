@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [18.x]
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v3
@@ -29,11 +29,12 @@ jobs:
         run: npm run package
 
       - name: Get current package version
+        id: extract-version
         uses: Saionaro/extract-package-version@v1.2.1
 
       - name: Generate package name
         id: package-name
-        run: echo "PACKAGE_NAME=${{ github.event.repository.name }}.${{ steps.extract_version.outputs.version }}" >> $GITHUB_OUTPUT
+        run: echo "PACKAGE_NAME=${{ github.event.repository.name }}.${{ steps.extract-version.outputs.version }}" >> $GITHUB_OUTPUT
 
       - name: Rename build folder
         run: mv release ${{ steps.package-name.outputs.PACKAGE_NAME }}
