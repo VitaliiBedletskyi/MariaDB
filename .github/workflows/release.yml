@@ -34,7 +34,7 @@ jobs:
 
       - name: Generate package name
         id: package-name
-        run: echo "PACKAGE_NAME=${{ github.event.repository.name }}.${{ steps.extract-version.outputs.version }}" >> $GITHUB_OUTPUT
+        run: echo "PACKAGE_NAME=${{ github.event.repository.name }}-${{ steps.extract-version.outputs.version }}" >> $GITHUB_OUTPUT
 
       - name: Rename build folder
         run: mv release ${{ steps.package-name.outputs.PACKAGE_NAME }}
@@ -46,3 +46,5 @@ jobs:
 
       - name: Create release
         run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
