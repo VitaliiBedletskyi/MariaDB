@@ -7,8 +7,8 @@ on:
       - release
 
 jobs:
-  build:
-    name: Build production artifacts
+  release:
+    name: Release plugin
     permissions:
       contents: write
       issues: write
@@ -30,21 +30,21 @@ jobs:
       - name: Install node modules
         run:  npm install
 
-      - name: Build plugin
+      - name: Package plugin
         run: npm run package
 
-      - name: Get current package version
+      - name: Get current package.json version
         id: extract-version
         uses: Saionaro/extract-package-version@v1.2.1
 
-      - name: Generate package name
+      - name: Generate package folder name
         id: package-name
         run: echo "PACKAGE_NAME=${{ github.event.repository.name }}-${{ steps.extract-version.outputs.version }}" >> $GITHUB_OUTPUT
 
-      - name: Rename build folder
+      - name: Rename package folder
         run: mv release ${{ steps.package-name.outputs.PACKAGE_NAME }}
 
-      - name: Zip build
+      - name: Zip artifacts
         uses: montudor/action-zip@v1
         with:
           args: zip -q -r ${{ steps.package-name.outputs.PACKAGE_NAME }}.zip ${{ steps.package-name.outputs.PACKAGE_NAME }}
