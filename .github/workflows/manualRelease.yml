@@ -12,7 +12,7 @@ on:
         required: true
         type: string
       target:
-        description: 'Release branch. Default: main'
+        description: 'Release branch'
         default: 'release'
         required: false
         type: string
@@ -26,12 +26,12 @@ on:
         default: false
         type: boolean
       pre_release:
-        description: 'This release will be labeled as non-production ready'
+        description: 'Pre-release'
         required: false
         default: false
         type: boolean
       latest:
-        description: 'This release will be labeled as the latest for this repository.'
+        description: 'Latest'
         required: false
         default: true
         type: boolean
@@ -95,3 +95,4 @@ jobs:
           body: ${{ inputs.description }}
           draft: ${{ inputs.draft }}
           prerelease: ${{ inputs.pre_release }}
+          makeLatest: ${{ inputs.latest }}
