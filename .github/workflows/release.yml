@@ -1,37 +1,9 @@
-name: Create Release
+name: Auto Release
 
 on:
-  workflow_dispatch:
-    inputs:
-      title:
-        description: 'Release title'
-        required: true
-        type: string
-      tag:
-        description: 'Release tag number'
-        required: true
-        type: string
-      target:
-        description: 'Release branch. Default: main'
-        required: false
-        type: string
-      description:
-        description: 'Describe this release'
-        required: false
-        type: string
-      preRelease:
-        description: 'This release will be labeled as non-production ready'
-        required: false
-        default: false
-        type: boolean
-      latest:
-        description: 'This release will be labeled as the latest for this repository.'
-        required: false
-        default: true
-        type: boolean
-#  push:
-#    branches:
-#      - release
+  push:
+    branches:
+      - release
 
 jobs:
   release:

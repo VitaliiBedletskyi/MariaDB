@@ -1,0 +1,97 @@
+name: Manual Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      title:
+        description: 'Release title'
+        required: true
+        type: string
+      tag:
+        description: 'Release tag number'
+        required: true
+        type: string
+      target:
+        description: 'Release branch. Default: main'
+        default: 'release'
+        required: false
+        type: string
+      description:
+        description: 'Describe this release'
+        required: false
+        type: string
+      draft:
+        description: 'Draft'
+        required: false
+        default: false
+        type: boolean
+      pre_release:
+        description: 'This release will be labeled as non-production ready'
+        required: false
+        default: false
+        type: boolean
+      latest:
+        description: 'This release will be labeled as the latest for this repository.'
+        required: false
+        default: true
+        type: boolean
+
+jobs:
+  release:
+    name: Release plugin
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 16.x ]
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v3
+
+#      - name: Get current package.json version
+#        id: extract-version
+#        uses: Saionaro/extract-package-version@v1.2.1
+#
+#      - name: Check if exist tag from package json
+#        id: checkTag
+#        uses: mukunku/tag-exists-action@v1.2.0
+#        with:
+#          tag: ${{ steps.extract-version.outputs.version }}
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        if: ${{ steps.checkTag.outputs.exists != 'true' }}
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install node modules
+        run: npm install
+
+      - name: Package plugin
+        run: npm run package
+
+      - name: Generate package folder name
+        id: package-name
+        run: echo "PACKAGE_NAME=${{ github.event.repository.name }}-${{ inputs.tag }}" >> $GITHUB_OUTPUT
+
+      - name: Rename package folder
+        run: mv release ${{ steps.package-name.outputs.PACKAGE_NAME }}
+
+      - name: Zip artifacts
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -q -r ${{ steps.package-name.outputs.PACKAGE_NAME }}.zip ${{ steps.package-name.outputs.PACKAGE_NAME }}
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1.12.0
+        with:
+          artifacts: "${{ steps.package-name.outputs.PACKAGE_NAME }}.zip"
+          skipIfReleaseExists: true
+          name: ${{ inputs.title }}
+          tag: ${{ inputs.tag }}
+          commit: ${{ inputs.target }}
+          body: ${{ inputs.description }}
+          draft: ${{ inputs.draft }}
+          prerelease: ${{ inputs.pre_release }}
