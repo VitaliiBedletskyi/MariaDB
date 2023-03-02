@@ -17,6 +17,7 @@ const EXCLUDED_FILES = [
 	'.prettierignore',
 	'.prettierrc',
 	'build',
+	'release',
 	'node_modules',
 	'package-lock.json',
 ];

@@ -11,8 +11,6 @@ jobs:
     name: Release plugin
     permissions:
       contents: write
-      issues: write
-      pull-requests: write
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -49,7 +47,15 @@ jobs:
         with:
           args: zip -q -r ${{ steps.package-name.outputs.PACKAGE_NAME }}.zip ${{ steps.package-name.outputs.PACKAGE_NAME }}
 
-      - name: Create release
-        run: npx semantic-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create Release
+        uses: ncipollo/release-action@v1.12.0
+        with:
+          artifacts: "${{ steps.package-name.outputs.PACKAGE_NAME }}.zip"
+          skipIfReleaseExists: true
+          name: ${{ steps.extract-version.outputs.version }}
+          tag: ${{ steps.extract-version.outputs.version }}
+          commit: release
+#      - name: Create release
+#        run: npx semantic-release
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
