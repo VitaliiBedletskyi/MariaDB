@@ -52,7 +52,6 @@
         "reverse_engineering"
     ],
     "devDependencies": {
-        "@semantic-release/github": "^8.0.7",
         "esbuild": "^0.17.10",
         "esbuild-native-node-modules-plugin": "^1.0.3",
         "eslint": "^8.35.0",

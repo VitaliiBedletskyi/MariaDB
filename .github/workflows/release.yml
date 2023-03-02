@@ -1,10 +1,13 @@
 name: Create Release
 
+env:
+  MAIN_BRANCH: release
+
 on:
   workflow_dispatch:
   push:
     branches:
-      - release
+      - $MAIN_BRANCH
 
 jobs:
   release:
@@ -14,26 +17,33 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [ 16.x ]
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v3
 
+      - name: Get current package.json version
+        id: extract-version
+        uses: Saionaro/extract-package-version@v1.2.1
+
+      - name: Check if exist tag from package json
+        id: checkTag
+        uses: mukunku/tag-exists-action@v1.2.0
+        with:
+          tag: ${{ steps.extract-version.outputs.version }}
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
+        if: ${{ steps.checkTag.outputs.exists != 'true' }}
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
       - name: Install node modules
-        run:  npm install
+        run: npm install
 
       - name: Package plugin
         run: npm run package
-
-      - name: Get current package.json version
-        id: extract-version
-        uses: Saionaro/extract-package-version@v1.2.1
 
       - name: Generate package folder name
         id: package-name
@@ -54,8 +64,4 @@ jobs:
           skipIfReleaseExists: true
           name: ${{ steps.extract-version.outputs.version }}
           tag: ${{ steps.extract-version.outputs.version }}
-          commit: release
-#      - name: Create release
-#        run: npx semantic-release
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          commit: $MAIN_BRANCH
