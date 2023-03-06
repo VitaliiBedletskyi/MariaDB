@@ -48,9 +48,10 @@
 		"build": "node esbuild.bundle.js",
 		"package": "node esbuild.package.js"
 	},
-	"workspaces": [
-		"reverse_engineering"
-	],
+	"dependencies": {
+		"mysql": "^2.18.1",
+		"tunnel-ssh": "^4.1.6"
+	},
 	"devDependencies": {
 		"esbuild": "^0.17.10",
 		"esbuild-native-node-modules-plugin": "^1.0.3",
