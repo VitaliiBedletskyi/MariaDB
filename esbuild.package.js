@@ -2,7 +2,12 @@ const esbuild = require('esbuild');
 const path = require('path');
 const { nativeNodeModulesPlugin } = require('esbuild-native-node-modules-plugin');
 const { copyFiles, cleanPackageJson } = require('./esbuildPlugins');
-const { EXCLUDED_EXTENSIONS, EXCLUDED_FILES, RELEASE_FOLDER_PATH } = require('./buildConstants');
+const { EXCLUDED_EXTENSIONS, EXCLUDED_FILES, DEFAULT_RELEASE_FOLDER_PATH } = require('./buildConstants');
+
+const outputArgument = process.argv.find(arg => arg.startsWith('--output='));
+const packageFolderPath = outputArgument ? outputArgument.slice(9, outputArgument.length) : '';
+
+const RELEASE_FOLDER_PATH = packageFolderPath || DEFAULT_RELEASE_FOLDER_PATH;
 
 esbuild
 	.build({
