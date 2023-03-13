@@ -2,7 +2,7 @@ const esbuild = require('esbuild');
 const path = require('path');
 const fs = require('fs');
 const { nativeNodeModulesPlugin } = require('esbuild-native-node-modules-plugin');
-const { copyFiles, cleanPackageJson } = require('./esbuildPlugins');
+const { copyFiles, cleanPackageJson, cleanPackageFolder } = require('./esbuildPlugins');
 const { EXCLUDED_EXTENSIONS, EXCLUDED_FILES, DEFAULT_RELEASE_FOLDER_PATH } = require('./buildConstants');
 
 const packageData = JSON.parse(fs.readFileSync('./package.json').toString());
@@ -23,6 +23,7 @@ esbuild
 		minify: true,
 		logLevel: 'info',
 		plugins: [
+			cleanPackageFolder(RELEASE_FOLDER_PATH),
 			nativeNodeModulesPlugin,
 			copyFiles({
 				targetFolderPath: RELEASE_FOLDER_PATH,

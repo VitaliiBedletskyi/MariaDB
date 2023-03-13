@@ -32,8 +32,22 @@ const copyFiles = options => ({
 	name: 'copyFiles',
 	setup(build) {
 		build.onEnd(async () => {
-			const files = await fs.readdir(__dirname);
-			await copyPluginFiles(files, options);
+			try {
+				const files = await fs.readdir(__dirname);
+				await copyPluginFiles(files, options);
+			} catch (err) {
+				// eslint-disable-next-line no-console
+				console.error('Copy plugin files failed with:', err);
+			}
+		});
+	},
+});
+
+const cleanPackageFolder = folderPath => ({
+	name: 'cleanPackageFolder',
+	setup(build) {
+		build.onStart(() => {
+			fsExtra.removeSync(folderPath);
 		});
 	},
 });
@@ -42,17 +56,22 @@ const cleanPackageJson = packageJsonPath => ({
 	name: 'cleanPackageJson',
 	setup(build) {
 		build.onEnd(async () => {
-			const fileContent = await fs.readFile(packageJsonPath);
-			const data = JSON.parse(fileContent.toString());
+			try {
+				const fileContent = await fs.readFile(packageJsonPath);
+				const data = JSON.parse(fileContent.toString());
 
-			data.release = true;
-			delete data.scripts;
-			delete data.devDependencies;
-			delete data.dependencies;
-			delete data['lint-staged'];
-			delete data['simple-git-hooks'];
+				data.release = true;
+				delete data.scripts;
+				delete data.devDependencies;
+				delete data.dependencies;
+				delete data['lint-staged'];
+				delete data['simple-git-hooks'];
 
-			await fs.writeFile(packageJsonPath, JSON.stringify(data, null, 4));
+				await fs.writeFile(packageJsonPath, JSON.stringify(data, null, 4));
+			} catch (err) {
+				// eslint-disable-next-line no-console
+				console.error('Cleaning package.json failed with:', err);
+			}
 		});
 	},
 });
@@ -60,4 +79,5 @@ const cleanPackageJson = packageJsonPath => ({
 module.exports = {
 	copyFiles,
 	cleanPackageJson,
+	cleanPackageFolder,
 };
