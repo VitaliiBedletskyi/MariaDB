@@ -23,7 +23,7 @@ esbuild
 		minify: true,
 		logLevel: 'info',
 		plugins: [
-			cleanPackageFolder(RELEASE_FOLDER_PATH),
+			cleanPackageFolder(DEFAULT_RELEASE_FOLDER_PATH),
 			nativeNodeModulesPlugin,
 			copyFiles({
 				targetFolderPath: RELEASE_FOLDER_PATH,
