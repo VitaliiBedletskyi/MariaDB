@@ -1,46 +1,73 @@
 {
-    "name": "MariaDB",
-    "version": "0.1.27",
-    "versionDate": "2023-01-27",
-    "author": "hackolade",
-    "engines": {
-        "hackolade": "6.1.2",
-        "hackoladePlugin": "1.2.0"
-    },
-    "contributes": {
-        "target": {
-            "applicationTarget": "MariaDB",
-            "title": "MariaDB",
-            "versions": [
-                "v10.x"
-            ]
-        },
-        "features": {
-            "nestedCollections": false,
-            "disablePatternField": false,
-            "disableMultipleTypes": true,
-            "enableForwardEngineering": true,
-            "disableReverseEngineering": false,
-            "disableChoices": true,
-            "enableJsonType": true,
-            "useJsonTypesWithComplexTypes": true,
-            "reverseSchemaIntoOneColumn": true,
+	"name": "MariaDB",
+	"version": "0.1.40",
+	"versionDate": "2023-01-27",
+	"author": "hackolade",
+	"engines": {
+		"hackolade": "6.1.2",
+		"hackoladePlugin": "1.2.0"
+	},
+	"contributes": {
+		"target": {
+			"applicationTarget": "MariaDB",
+			"title": "MariaDB",
+			"versions": [
+				"v10.x"
+			]
+		},
+		"features": {
+			"nestedCollections": false,
+			"disablePatternField": false,
+			"disableMultipleTypes": true,
+			"enableForwardEngineering": true,
+			"disableReverseEngineering": false,
+			"disableChoices": true,
+			"enableJsonType": true,
+			"useJsonTypesWithComplexTypes": true,
+			"reverseSchemaIntoOneColumn": true,
 			"disableDenormalization": true,
 			"enableComplexTypesNormalization": true,
-            "views": {
-                "enabled": true,
-                "viewLevel": "model",
-                "disablePipelines": true
-            },
-            "relationships": {
-                "compositeRelationships": true
-            },
-            "FEScriptCommentsSupported": true,
-            "enableFetchSystemEntitiesCheckbox": true,
-            "discoverRelationships": true
-        }
-    },
-    "description": "Hackolade plugin for MariaDB",
-    "icon_url": "logo.jpg",
-    "disabled": false
+			"views": {
+				"enabled": true,
+				"viewLevel": "model",
+				"disablePipelines": true
+			},
+			"relationships": {
+				"compositeRelationships": true
+			},
+			"FEScriptCommentsSupported": true,
+			"enableFetchSystemEntitiesCheckbox": true,
+			"discoverRelationships": true
+		}
+	},
+	"description": "Hackolade plugin for MariaDB",
+	"icon_url": "logo.jpg",
+	"disabled": false,
+	"scripts": {
+		"lint": "eslint .",
+		"build": "node esbuild.bundle.js",
+		"package": "node esbuild.package.js"
+	},
+	"dependencies": {
+		"mysql": "^2.18.1",
+		"tunnel-ssh": "^4.1.6"
+	},
+	"devDependencies": {
+		"esbuild": "^0.17.10",
+		"esbuild-native-node-modules-plugin": "^1.0.3",
+		"eslint": "^8.35.0",
+		"eslint-config-prettier": "^8.6.0",
+		"eslint-plugin-prettier": "^4.2.1",
+		"fs-extra": "^11.1.0",
+		"lint-staged": "^13.1.2",
+		"prettier": "^2.8.4",
+		"simple-git-hooks": "^2.8.1"
+	},
+	"lint-staged": {
+		"*.{js,json}": "prettier --write"
+	},
+	"simple-git-hooks": {
+		"pre-commit": "npx lint-staged",
+		"pre-push": "eslint ."
+	}
 }
