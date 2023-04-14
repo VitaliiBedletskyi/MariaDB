@@ -61,11 +61,6 @@ const cleanPackageJson = packageJsonPath => ({
 				const data = JSON.parse(fileContent.toString());
 
 				data.release = true;
-				delete data.scripts;
-				delete data.devDependencies;
-				delete data.dependencies;
-				delete data['lint-staged'];
-				delete data['simple-git-hooks'];
 
 				await fs.writeFile(packageJsonPath, JSON.stringify(data, null, 4));
 			} catch (err) {
