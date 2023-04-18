@@ -1,7 +1,7 @@
 const esbuild = require('esbuild');
 const path = require('path');
 const fs = require('fs');
-const { copyFiles, cleanPackageJson, cleanPackageFolder } = require('./esbuildPlugins');
+const { copyFiles, addReleaseFlag, cleanPackageFolder } = require('./esbuildPlugins');
 const { EXCLUDED_EXTENSIONS, EXCLUDED_FILES, DEFAULT_RELEASE_FOLDER_PATH } = require('./buildConstants');
 
 const packageData = JSON.parse(fs.readFileSync('./package.json').toString());
@@ -29,7 +29,7 @@ esbuild
 				excludedExtensions: EXCLUDED_EXTENSIONS,
 				excludedFiles: EXCLUDED_FILES,
 			}),
-			cleanPackageJson(path.resolve(RELEASE_FOLDER_PATH, 'package.json')),
+			addReleaseFlag(path.resolve(RELEASE_FOLDER_PATH, 'package.json')),
 		],
 	})
 	.catch(() => process.exit(1));

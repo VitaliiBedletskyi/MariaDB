@@ -52,8 +52,8 @@ const cleanPackageFolder = folderPath => ({
 	},
 });
 
-const cleanPackageJson = packageJsonPath => ({
-	name: 'cleanPackageJson',
+const addReleaseFlag = packageJsonPath => ({
+	name: 'addReleaseFlag',
 	setup(build) {
 		build.onEnd(async () => {
 			try {
@@ -73,6 +73,6 @@ const cleanPackageJson = packageJsonPath => ({
 
 module.exports = {
 	copyFiles,
-	cleanPackageJson,
+	addReleaseFlag,
 	cleanPackageFolder,
 };
