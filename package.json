@@ -67,6 +67,6 @@
 	},
 	"simple-git-hooks": {
 		"pre-commit": "npx lint-staged",
-		"pre-push": "eslint ."
+		"pre-push": "npx eslint ."
 	}
 }
