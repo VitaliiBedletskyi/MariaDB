@@ -1,6 +1,6 @@
 {
 	"name": "MariaDB",
-	"version": "0.1.45",
+	"version": "0.1.46",
 	"versionDate": "2023-01-27",
 	"author": "VitaliiBedletskyi",
 	"engines": {
@@ -67,6 +67,6 @@
 	},
 	"simple-git-hooks": {
 		"pre-commit": "npx lint-staged",
-		"pre-push": "eslint ."
+		"pre-push": "npx eslint ."
 	}
 }
