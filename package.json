@@ -44,7 +44,7 @@
 	"icon_url": "logo.jpg",
 	"disabled": false,
 	"scripts": {
-		"lint": "eslint .",
+		"lint": "eslint . --max-warnings=0",
 		"build": "node esbuild.bundle.js",
 		"package": "node esbuild.package.js"
 	},
