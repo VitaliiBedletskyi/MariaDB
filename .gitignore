@@ -1,9 +1,0 @@
-.vscode
-.antlr
-.idea
-node_modules
-reverse_engineering/node_modules
-forward_engineering/node_modules
-.DS_Store
-build
-release
