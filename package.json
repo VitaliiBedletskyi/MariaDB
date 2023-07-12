@@ -1,6 +1,6 @@
 {
     "name": "MariaDB",
-    "version": "0.1.58",
+    "version": "0.1.59",
     "author": "VitaliiBedletskyi",
     "engines": {
         "hackolade": "6.1.2",
