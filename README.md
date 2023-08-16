@@ -1,4 +1,4 @@
-# MariaDB
+# MariaDB Test
 
 Plugin for MariaDB as a target in [Hackolade](https://hackolade.com) data modeling.  Requires prior download of the Hackolade application from our [download page](https://hackolade.com/download.html)
 
